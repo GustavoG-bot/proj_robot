@@ -55,15 +55,19 @@ try:
         data_receive_1 = server.get_holding(1)
         data_receive_2 = server.get_holding(1)
 
-        #Sensor 1
-        if data_receive_1 == 1:
-            with open("dados.txt", "r") as arquivo:
+        with open("dados2.txt", "w") as arquivo:
+            
+            #Sensor 1
+            if data_receive_1 == 1:
                 arquivo.write(f"{data_receive_1}\n")
-        
-        #Sensor 2
-        if data_receive_2 == 1:
-            with open("dados.txt", "r") as arquivo:
-                arquivo.write(f"{data_receive_1}\n")
+            else:
+                arquivo.write(f"{data_receive_1}\n")   
+
+            #Sensor 2
+            if data_receive_2 == 1:
+                arquivo.write(f"{data_receive_2}\n")
+            else:
+                arquivo.write(f"{data_receive_2}\n")
 
         sleep(0.5)
                     
