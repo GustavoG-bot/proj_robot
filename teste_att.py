@@ -1,6 +1,7 @@
 import tkinter as tk
 import threading
 from tkinter import ttk
+from time import sleep
 
 def inicio():
     tela_finalizado.grid_forget() 
@@ -64,6 +65,14 @@ def aguarde():
             finalizado()
             break
 
+        #with open("dados2.txt", "r") as arquivo:
+        #    sensor1 = arquivo.readlines()[0]
+        #    x = int(sensor1)
+        #    if x == 1:
+        #        finalizado()
+        #        break
+        #sleep(0.5)
+
 def finalizado():
 
 
@@ -78,6 +87,16 @@ def finalizado():
         if sinal == '1':
             inicio()
             break  
+
+        #with open("dados2.txt", "r") as arquivo:
+        #    sensor2 = arquivo.readlines()[1]
+        #    x = int(sensor2)
+        #    if x == 1:
+        #        inicio()
+        #        break
+        #sleep(0.5)
+
+
 
     with open("dados.txt", "w") as arquivo:
         zerou = 0
