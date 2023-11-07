@@ -48,9 +48,11 @@ def confirmar():
         arquivo.write(f"{alcool}\n")
         arquivo.write(f"{sabor}\n")
 
+
     aguarde()
 
     threading.Thread(target=inicio).start()
+    
 
 def aguarde():
 
@@ -67,6 +69,10 @@ def finalizado():
 
     tela_aguarde.grid_forget()  # Oculta a tela de boas-vindas
     tela_finalizado.grid() 
+    var1.set(None)
+    var2.set(None)
+    var3.set(None)
+
     while True:
         sinal = input("Digite '1' quando retirar o copo: ")
         if sinal == '1':
@@ -78,6 +84,7 @@ def finalizado():
         arquivo.write(f"{zerou}\n")
         arquivo.write(f"{zerou}\n")
         arquivo.write(f"{zerou}\n")
+
 
 
 def selecionar_drink(opcao):
@@ -96,6 +103,10 @@ root = tk.Tk()
 root.title("Controle de Robô Barman")
 root.tk.call("source", "azure.tcl")
 root.tk.call("set_theme", "dark")
+
+var1 = tk.StringVar()
+var2 = tk.StringVar()
+var3 = tk.StringVar()
 
 estilo = ttk.Style()
 estilo.configure("TRadiobutton", font=20)
@@ -135,9 +146,9 @@ drink_label.grid(row=0, column=0, columnspan=3)
 drink_selecionado = tk.StringVar()
 botoes_drink = []
 
-drink1_button = ttk.Radiobutton(frame, text="Drink 1", command=lambda: selecionar_drink(drink1_button), variable=v1, value=1)
-drink2_button = ttk.Radiobutton(frame, text="Drink 2", command=lambda: selecionar_drink(drink2_button), variable=v1, value=2)
-drink3_button = ttk.Radiobutton(frame, text="Drink 3", command=lambda: selecionar_drink(drink3_button), variable=v1, value=3)
+drink1_button = ttk.Radiobutton(frame, text="Drink 1", command=lambda: selecionar_drink(drink1_button), variable=var1, value=1)
+drink2_button = ttk.Radiobutton(frame, text="Drink 2", command=lambda: selecionar_drink(drink2_button), variable=var1, value=2)
+drink3_button = ttk.Radiobutton(frame, text="Drink 3", command=lambda: selecionar_drink(drink3_button), variable=var1, value=3)
 
 botoes_drink.extend([drink1_button, drink2_button, drink3_button])
 
@@ -152,9 +163,9 @@ alcool_selecionado = tk.StringVar()
 botoes_alcool = []
 
 
-fraco_button = ttk.Radiobutton(frame, text="Fraco", command=lambda: selecionar_alcool(fraco_button), variable=v2, value=1)
-medio_button = ttk.Radiobutton(frame, text="Médio", command=lambda: selecionar_alcool(medio_button), variable=v2, value=2)
-forte_button = ttk.Radiobutton(frame, text="Forte", command=lambda: selecionar_alcool(forte_button), variable=v2, value=3)
+fraco_button = ttk.Radiobutton(frame, text="Fraco", command=lambda: selecionar_alcool(fraco_button), variable=var2, value=1)
+medio_button = ttk.Radiobutton(frame, text="Médio", command=lambda: selecionar_alcool(medio_button), variable=var2, value=2)
+forte_button = ttk.Radiobutton(frame, text="Forte", command=lambda: selecionar_alcool(forte_button), variable=var2, value=3)
 
 botoes_alcool.extend([fraco_button, medio_button, forte_button])
 
@@ -168,8 +179,8 @@ sabor_label.grid(row=4, column=0, columnspan=3)
 sabor_selecionado = tk.StringVar()
 botoes_sabor = []
 
-acucar_button = ttk.Radiobutton(frame, text="Com Açúcar", command=lambda: selecionar_sabor(acucar_button), variable=v3, value=1)
-sem_acucar_button = ttk.Radiobutton(frame, text="Sem Açúcar", command=lambda: selecionar_sabor(sem_acucar_button), variable=v3, value=2)
+acucar_button = ttk.Radiobutton(frame, text="Com Açúcar", command=lambda: selecionar_sabor(acucar_button), variable=var3, value=1)
+sem_acucar_button = ttk.Radiobutton(frame, text="Sem Açúcar", command=lambda: selecionar_sabor(sem_acucar_button), variable=var3, value=2)
 
 botoes_sabor.extend([acucar_button, sem_acucar_button])
 
