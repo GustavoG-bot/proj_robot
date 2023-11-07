@@ -49,7 +49,25 @@ try:
         print('-----------------------')
         print('Data sent 3:', DATA_SENT_3)
         print('Data received 3:', DATA_RECEIVED_3)
+
+
+        #Leitura dos sensores
+        data_receive_1 = server.get_holding(1)
+        data_receive_2 = server.get_holding(1)
+
+        #Sensor 1
+        if data_receive_1 == 1:
+            with open("dados.txt", "r") as arquivo:
+                arquivo.write(f"{data_receive_1}\n")
+        
+        #Sensor 2
+        if data_receive_2 == 1:
+            with open("dados.txt", "r") as arquivo:
+                arquivo.write(f"{data_receive_1}\n")
+
         sleep(0.5)
+                    
+
 
 except:
     print('Shutting down server...')
