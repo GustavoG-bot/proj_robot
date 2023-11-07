@@ -22,15 +22,33 @@ try:
 
     while True:
 
-        with open("valor_var_1.txt", "r") as file:
-            conteudo = file.read()
-            valor_lido = int(conteudo)
+        with open("dados.txt", "r") as arquivo:
+            linhas = []
+            for linha in arquivo:
+                linhas.append(linha.strip())
 
-        DATA_SENT_1 = [conteudo]
+        drink = linhas[0]
+        alcool = linhas[1]
+        sabor = linhas[2]
+
+
+        DATA_SENT_1 = [drink]
         DATA_RECEIVED_1 = server.data_bank.get_holding_registers(180)
+        DATA_SENT_2 = [alcool]
+        DATA_RECEIVED_2 = server.data_bank.get_holding_registers(181)
+        DATA_SENT_3 = [sabor]
+        DATA_RECEIVED_3 = server.data_bank.get_holding_registers(182)
         server.data_bank.set_input_registers(180, DATA_SENT_1)
-        print('Data sent:', DATA_SENT_1)
-        print('Data received:', DATA_RECEIVED_1)
+        server.data_bank.set_input_registers(181, DATA_SENT_2)
+        server.data_bank.set_input_registers(182, DATA_SENT_3)
+        print('Data sent 1:', DATA_SENT_1)
+        print('Data received 1:', DATA_RECEIVED_1)
+        print('-----------------------')
+        print('Data sent 2:', DATA_SENT_2)
+        print('Data received 2:', DATA_RECEIVED_2)
+        print('-----------------------')
+        print('Data sent 3:', DATA_SENT_3)
+        print('Data received 3:', DATA_RECEIVED_3)
         sleep(0.5)
 
 except:
