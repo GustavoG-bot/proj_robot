@@ -9,8 +9,21 @@ def inicio():
 
 
 def mostrar_tela_selecao():
-    tela_boas_vindas.grid_forget()  # Oculta a tela de boas-vindas
+    tela_boas_vindas.grid_forget()  
     frame.grid()
+    #while True:
+    #    with open("dados2.txt", "r") as arquivo:
+    #        sensor = arquivo.readlines()[0]
+    #        x = int(sensor)
+    #        if x == 0:
+    #           tela_boas_vindas.grid_forget()  
+    #           frame.grid()
+    #           break
+    #        
+    #    sleep(0.5)
+
+
+
 
 
 def confirmar():
@@ -22,9 +35,7 @@ def confirmar():
         drink = 1 
     if drink == "Drink 2":
         drink = 2 
-    if drink == "Drink 3":
-        drink = 3 
-    
+
     alcool = alcool_selecionado.get()
     
     if alcool == "Fraco":
@@ -34,20 +45,14 @@ def confirmar():
     if alcool == "Forte":
         alcool = 3 
 
-    sabor = sabor_selecionado.get()
-    
-    if sabor == "Com Açúcar":
-        sabor = 1 
-    if sabor == "Sem Açúcar":
-        sabor = 2 
 
-    resposta = f"Drink: {drink}\nQuantidade de Álcool: {alcool}\nSabor: {sabor}"
+    resposta = f"Drink: {drink}\nQuantidade de Álcool: {alcool}\n"
     print(resposta)
 
     with open("dados.txt", "w") as arquivo:
         arquivo.write(f"{drink}\n")
         arquivo.write(f"{alcool}\n")
-        arquivo.write(f"{sabor}\n")
+
 
 
     aguarde()
@@ -57,7 +62,7 @@ def confirmar():
 
 def aguarde():
 
-    frame.grid_forget()  # Oculta a tela de boas-vindas
+    frame.grid_forget()  
     tela_aguarde.grid()
     while True:
         sinal = input("Digite '1' quando o drink estiver pronto: ")
@@ -66,8 +71,8 @@ def aguarde():
             break
 
         #with open("dados2.txt", "r") as arquivo:
-        #    sensor1 = arquivo.readlines()[0]
-        #    x = int(sensor1)
+        #    sensor = arquivo.readlines()[0]
+        #    x = int(sensor)
         #    if x == 1:
         #        finalizado()
         #        break
@@ -76,11 +81,11 @@ def aguarde():
 def finalizado():
 
 
-    tela_aguarde.grid_forget()  # Oculta a tela de boas-vindas
+    tela_aguarde.grid_forget()  
     tela_finalizado.grid() 
     var1.set(None)
     var2.set(None)
-    var3.set(None)
+
 
     while True:
         sinal = input("Digite '1' quando retirar o copo: ")
@@ -89,9 +94,9 @@ def finalizado():
             break  
 
         #with open("dados2.txt", "r") as arquivo:
-        #    sensor2 = arquivo.readlines()[1]
-        #    x = int(sensor2)
-        #    if x == 1:
+        #    sensor = arquivo.readlines()[0]
+        #    x = int(sensor)
+        #    if x == 0:
         #        inicio()
         #        break
         #sleep(0.5)
@@ -112,8 +117,6 @@ def selecionar_drink(opcao):
 def selecionar_alcool(opcao):
     alcool_selecionado.set(opcao["text"])
 
-def selecionar_sabor(opcao):
-    sabor_selecionado.set(opcao["text"])
     
 
 
@@ -125,7 +128,7 @@ root.tk.call("set_theme", "dark")
 
 var1 = tk.StringVar()
 var2 = tk.StringVar()
-var3 = tk.StringVar()
+
 
 estilo = ttk.Style()
 estilo.configure("TRadiobutton", font=20)
@@ -167,13 +170,12 @@ botoes_drink = []
 
 drink1_button = ttk.Radiobutton(frame, text="Drink 1", command=lambda: selecionar_drink(drink1_button), variable=var1, value=1)
 drink2_button = ttk.Radiobutton(frame, text="Drink 2", command=lambda: selecionar_drink(drink2_button), variable=var1, value=2)
-drink3_button = ttk.Radiobutton(frame, text="Drink 3", command=lambda: selecionar_drink(drink3_button), variable=var1, value=3)
 
-botoes_drink.extend([drink1_button, drink2_button, drink3_button])
+botoes_drink.extend([drink1_button, drink2_button])
 
 drink1_button.grid(row=1, column=0, padx=10, pady=30)
-drink2_button.grid(row=1, column=1, padx=10, pady=30)
-drink3_button.grid(row=1, column=2, padx=10, pady=30)
+drink2_button.grid(row=1, column=2, padx=10, pady=30)
+
 
 alcool_label = ttk.Label(frame, text="Escolha a quantidade de álcool:", font=("Arial", 24))
 alcool_label.grid(row=2, column=0, columnspan=3)
@@ -192,22 +194,9 @@ fraco_button.grid(row=3, column=0, padx=10, pady=30)
 medio_button.grid(row=3, column=1, padx=10, pady=30)
 forte_button.grid(row=3, column=2, padx=10, pady=30)
 
-sabor_label = ttk.Label(frame, text="Escolha o sabor:", font=("Arial", 24))
-sabor_label.grid(row=4, column=0, columnspan=3)
-
-sabor_selecionado = tk.StringVar()
-botoes_sabor = []
-
-acucar_button = ttk.Radiobutton(frame, text="Com Açúcar", command=lambda: selecionar_sabor(acucar_button), variable=var3, value=1)
-sem_acucar_button = ttk.Radiobutton(frame, text="Sem Açúcar", command=lambda: selecionar_sabor(sem_acucar_button), variable=var3, value=2)
-
-botoes_sabor.extend([acucar_button, sem_acucar_button])
-
-acucar_button.grid(row=5, column=0, padx=5, pady=10)
-sem_acucar_button.grid(row=5, column=2, padx=5, pady=10)
 
 confirmar_button = ttk.Button(frame, text="Confirmar", command=confirmar)
-confirmar_button.grid(row=6, column=0, columnspan=3, padx=10, pady=10)
+confirmar_button.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
 
 # Tela aguardando
 tela_aguarde = tk.Frame(root, padx=100, pady=200)
