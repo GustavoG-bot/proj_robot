@@ -11,19 +11,14 @@ def inicio():
 def mostrar_tela_selecao():
     tela_boas_vindas.grid_forget()  
     frame.grid()
-    #while True:
-    #    with open("dados2.txt", "r") as arquivo:
-    #        sensor = arquivo.readlines()[0]
-    #        x = int(sensor)
-    #        if x == 0:
-    #           tela_boas_vindas.grid_forget()  
-    #           frame.grid()
-    #           break
-    #        
-    #    sleep(0.5)
-
-
-
+    with open("dados2.txt", "r") as arquivo:
+        sensor = arquivo.readlines()
+        x = sensor
+        if x == 0:
+            tela_boas_vindas.grid_forget()  
+            frame.grid()
+            
+        sleep(0.5)
 
 
 def confirmar():
@@ -53,73 +48,55 @@ def confirmar():
         arquivo.write(f"{drink}\n")
         arquivo.write(f"{alcool}\n")
 
-
-
     aguarde()
-
     threading.Thread(target=inicio).start()
     
 
 def aguarde():
+    def verificar_sensor():
+        with open("dados2.txt", "r") as arquivo:
+            sensor = arquivo.readlines()
+            x = sensor
+            if x[0] == '1':
+                finalizado()
+            else:
+                # Chama novamente a função após 500 milissegundos (0.5 segundos)
+                root.after(500, verificar_sensor)
 
-    frame.grid_forget()  
+    frame.grid_forget()
     tela_aguarde.grid()
-    while True:
-        sinal = input("Digite '1' quando o drink estiver pronto: ")
-        if sinal == '1':
-            finalizado()
-            break
+    verificar_sensor()  # Inicia a verificação do sensor pela primeira vez
 
-        #with open("dados2.txt", "r") as arquivo:
-        #    sensor = arquivo.readlines()[0]
-        #    x = int(sensor)
-        #    if x == 1:
-        #        finalizado()
-        #        break
-        #sleep(0.5)
 
 def finalizado():
-
-
-    tela_aguarde.grid_forget()  
-    tela_finalizado.grid() 
-    var1.set(None)
-    var2.set(None)
-
-
-    while True:
-        sinal = input("Digite '1' quando retirar o copo: ")
-        if sinal == '1':
-            inicio()
-            break  
-
-        #with open("dados2.txt", "r") as arquivo:
-        #    sensor = arquivo.readlines()[0]
-        #    x = int(sensor)
-        #    if x == 0:
-        #        inicio()
-        #        break
-        #sleep(0.5)
-
-
-
     with open("dados.txt", "w") as arquivo:
         zerou = 0
         arquivo.write(f"{zerou}\n")
         arquivo.write(f"{zerou}\n")
         arquivo.write(f"{zerou}\n")
 
+    def verificar_dados2():
+        with open("dados2.txt", "r") as arquivo_dados2:
+            teste = arquivo_dados2.readlines()
+            print(teste[0])
+            if int(teste[0].strip()) == 0:
+                tela_aguarde.grid_forget() 
+                inicio()
+            else:
+                # Chama novamente a função após 500 milissegundos (0.5 segundos)
+                root.after(500, verificar_dados2)
 
+     
+    tela_finalizado.grid()
+    var1.set(None)
+    var2.set(None) 
+    verificar_dados2()
 
 def selecionar_drink(opcao):
     drink_selecionado.set(opcao["text"])
 
 def selecionar_alcool(opcao):
     alcool_selecionado.set(opcao["text"])
-
-    
-
-
 
 root = tk.Tk()
 root.title("Controle de Robô Barman")
@@ -208,6 +185,7 @@ aguarde_label = ttk.Label(tela_aguarde, text="Aguarde o drink está sendo prepar
 aguarde_label.pack(pady=20)
 
 
+
 # Tela final 
 tela_finalizado = tk.Frame(root, padx=100, pady=200)
 tela_finalizado.grid(row=0, column=0, padx=50, pady=40)
@@ -216,8 +194,9 @@ tela_finalizado.grid_forget()
 
 finalizado_label = ttk.Label(tela_finalizado, text="Pode retirar seu drink")
 finalizado_label.pack(pady=20)
-
 root.mainloop()
+
+
 
 
 

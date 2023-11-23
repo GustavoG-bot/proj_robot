@@ -10,7 +10,7 @@ from time import sleep
 
 
 #Create an instance of ModbusServer
-SERVER_ADDRESS = '10.103.16.152'
+SERVER_ADDRESS = '10.103.16.173'
 SERVER_PORT = 502
 server = ModbusServer(SERVER_ADDRESS, SERVER_PORT, no_block = True)
 
@@ -21,29 +21,31 @@ try:
     print('Server is online')
 
     while True:
-
+        
         with open("dados.txt", "r") as arquivo:
+            print("oi")
             linhas = []
             for linha in arquivo:
                 linhas.append(linha.strip())
 
         drink = linhas[0]
         alcool = linhas[1]
-        sabor = linhas[2]
+
 
 
         DATA_SENT_1 = [drink]
-        DATA_RECEIVED_1 = server.data_bank.get_holding_registers(180)
         DATA_SENT_2 = [alcool]
+
+
+        DATA_RECEIVED_1 = server.data_bank.get_holding_registers(180)
         DATA_RECEIVED_2 = server.data_bank.get_holding_registers(181)
-        DATA_SENT_3 = [sabor]
-        DATA_RECEIVED_3 = server.data_bank.get_holding_registers(182)
+        #DATA_RECEIVED_3 = server.data_bank.get_holding_registers(182)
         DATA_RECEIVED_4 = server.data_bank.get_holding_registers(330)
     
     
         server.data_bank.set_input_registers(180, DATA_SENT_1)
         server.data_bank.set_input_registers(181, DATA_SENT_2)
-        server.data_bank.set_input_registers(182, DATA_SENT_3)
+        #server.data_bank.set_input_registers(182, DATA_SENT_3)
         
         print('Data sent 1:', DATA_SENT_1)
         print('Data received 1:', DATA_RECEIVED_1)
@@ -51,26 +53,17 @@ try:
         print('Data sent 2:', DATA_SENT_2)
         print('Data received 2:', DATA_RECEIVED_2)
         print('-----------------------')
-        print('Data sent 3:', DATA_SENT_3)
-        print('Data received 3:', DATA_RECEIVED_3)
-
-        
         print('-----------------------')
         print('Data received 4:', DATA_RECEIVED_4)
 
-        with open("dados2.txt", "w") as arquivo:
-            
-            #Com liquido
-            if DATA_RECEIVED_4 == 1:
-                arquivo.write(f"{DATA_RECEIVED_4}\n")
-                
-            #Sem liquido
-            else:
-                arquivo.write(f"{DATA_RECEIVED_4}\n")   
 
+        with open("dados2.txt", "w") as arquivo2:
+            if DATA_RECEIVED_4[0] == 1:
+                arquivo2.write("1")
+            else:
+                arquivo2.write("0")   
         sleep(0.5)
                     
-
 except:
     print('Shutting down server...')
     server.stop()
