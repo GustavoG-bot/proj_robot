@@ -55,6 +55,11 @@ def confirmar():
 def aguarde():
     frame.grid_forget()
     tela_aguarde.grid()
+    var1.set(None)
+    var2.set(None) 
+
+
+
 
     def verificar_sensor():
         with open("dados2.txt", "r") as arquivo:
@@ -64,6 +69,7 @@ def aguarde():
                 print("Printando x para ir para o finalziado", x)
                 if int(x[0]) == 1:
                     tela_aguarde.grid_forget()
+                    sleep(30)
                     finalizado()
                 else:
                     # Chama novamente a função após 500 milissegundos (0.5 segundos)
@@ -84,7 +90,6 @@ def finalizado():
 
     with open("dados.txt", "w") as arquivo:
         zerou = 0
-        arquivo.write(f"{zerou}\n")
         arquivo.write(f"{zerou}\n")
         arquivo.write(f"{zerou}\n")
 
