@@ -23,7 +23,6 @@ try:
     while True:
         
         with open("dados.txt", "r") as arquivo:
-            print("oi")
             linhas = []
             for linha in arquivo:
                 linhas.append(linha.strip())

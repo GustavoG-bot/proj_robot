@@ -49,26 +49,39 @@ def confirmar():
         arquivo.write(f"{alcool}\n")
 
     aguarde()
-    threading.Thread(target=inicio).start()
+    #threading.Thread(target=inicio).start()
     
 
 def aguarde():
+    frame.grid_forget()
+    tela_aguarde.grid()
+
     def verificar_sensor():
         with open("dados2.txt", "r") as arquivo:
             sensor = arquivo.readlines()
-            x = sensor
-            if x[0] == '1':
-                finalizado()
+            if sensor:
+                x = sensor
+                print("Printando x para ir para o finalziado", x)
+                if int(x[0]) == 1:
+                    tela_aguarde.grid_forget()
+                    finalizado()
+                else:
+                    # Chama novamente a função após 500 milissegundos (0.5 segundos)
+                    root.after(500, verificar_sensor)
             else:
-                # Chama novamente a função após 500 milissegundos (0.5 segundos)
                 root.after(500, verificar_sensor)
+            
 
-    frame.grid_forget()
-    tela_aguarde.grid()
+
     verificar_sensor()  # Inicia a verificação do sensor pela primeira vez
 
 
 def finalizado():
+    tela_aguarde.grid_forget()
+    tela_finalizado.grid()
+    var1.set(None)
+    var2.set(None) 
+
     with open("dados.txt", "w") as arquivo:
         zerou = 0
         arquivo.write(f"{zerou}\n")
@@ -77,19 +90,19 @@ def finalizado():
 
     def verificar_dados2():
         with open("dados2.txt", "r") as arquivo_dados2:
-            teste = arquivo_dados2.readlines()
-            print(teste[0])
-            if int(teste[0].strip()) == 0:
-                tela_aguarde.grid_forget() 
-                inicio()
+            sensor = arquivo_dados2.readlines()
+            if sensor:
+                x = sensor
+                print("Verificar dados2:", x[0])
+                if int(x[0]) == 0:
+                    print("OOOOOOOO")
+                    inicio()
+                else:
+                    # Chama novamente a função após 500 milissegundos (0.5 segundos)
+                    root.after(500, verificar_dados2)
             else:
-                # Chama novamente a função após 500 milissegundos (0.5 segundos)
                 root.after(500, verificar_dados2)
 
-     
-    tela_finalizado.grid()
-    var1.set(None)
-    var2.set(None) 
     verificar_dados2()
 
 def selecionar_drink(opcao):
@@ -194,6 +207,7 @@ tela_finalizado.grid_forget()
 
 finalizado_label = ttk.Label(tela_finalizado, text="Pode retirar seu drink")
 finalizado_label.pack(pady=20)
+
 root.mainloop()
 
 
