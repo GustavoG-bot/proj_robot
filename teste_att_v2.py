@@ -210,7 +210,7 @@ tela_finalizado.grid(row=0, column=0, padx=50, pady=40)
 
 tela_finalizado.grid_forget()
 
-finalizado_label = ttk.Label(tela_finalizado, text="Pode retirar seu drink")
+finalizado_label = ttk.Label(tela_finalizado, text="Pode retirar seu drink", font = 24)
 finalizado_label.pack(pady=20)
 
 root.mainloop()
